@@ -10,7 +10,7 @@
 #define __RayTracingRendering__Sphere__
 
 
-#include "AABB.h"
+#include "Rect3D.h"
 
 #include <iostream>
 #include <assert.h>
@@ -20,7 +20,7 @@ class Sphere : public Shape
 private:
     Point3D c;
     double r;
-    AABB bound;
+    Rect3D bound;
     
 public:
     Sphere(const Point3D& center, double radius) : bound(   center.x - radius - RAY_EPSILON,
@@ -76,7 +76,7 @@ public:
         return Direction(c, position);
     }
     
-    AABB boundingBox()
+    Rect3D boundingBox()
     {
         return bound;
     }

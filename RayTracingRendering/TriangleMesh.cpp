@@ -12,14 +12,14 @@ void TriangleMesh::_parse(double scale[3], double rot_angle[3], double trans[3])
     
     char line[1024];
     
-    while(!file.eof())
-    {
-        int count = file.getLine(line, 1024);
+    while(!file.eof()) {
+        
+        size_t count = file.getLine(line, 1024);
         
         line[count]=0;
         
-        if (line[0]=='v'&&line[1]==' ')
-        {
+        if (line[0]=='v'&&line[1]==' ') {
+            
             Point3D p;
             int i=1;
             while (line[i]==' ') i++;
@@ -65,8 +65,8 @@ void TriangleMesh::_parse(double scale[3], double rot_angle[3], double trans[3])
             vertex.push_back(p);
             nvertex++;
         }
-        else if(line[0]=='v'&&line[1]=='n')
-        {
+        else if(line[0]=='v'&&line[1]=='n') {
+            
             double x, y, z;
             int i=2;
             
@@ -113,8 +113,8 @@ void TriangleMesh::_parse(double scale[3], double rot_angle[3], double trans[3])
             Direction d(x, y, z);
             norm.push_back(d);
         }
-        else if (line[0]=='v'&&line[1]=='t')
-        {
+        else if (line[0]=='v'&&line[1]=='t') {
+            
             Point2D p2d;
             int i=2;
             
@@ -127,39 +127,36 @@ void TriangleMesh::_parse(double scale[3], double rot_angle[3], double trans[3])
             
             text_cord.push_back(p2d);
         }
-        else if(line[0]=='f')
-        {
+        else if(line[0]=='f') {
+            
             int v[3] =  {0, 0, 0};
             int vt[3] = {0, 0, 0};
             int vn[3] = {0, 0, 0};
             
             int i=1;
             
-            for (int n=0;n<3;n++)
-            {
+            for (int n=0;n<3;n++) {
+                
                 while (!_isDigit(line[i])) i++;
                 sscanf(&line[i], "%d", &v[n]);
                 while (_isDigit(line[i])) i++;
-                if(line[i]=='/'&&line[i+1]!='/')
-                {
+                if(line[i]=='/'&&line[i+1]!='/') {
+                    
                     sscanf(&line[++i], "%d", &vt[n]);
                     while(_isDigit(line[i])) i++;
-                    if (line[i]=='/')
-                    {
+                    if (line[i]=='/') {
                         sscanf(&line[++i], "%d", &vn[n]);
                         while(_isDigit(line[i])) i++;
                     }
                 }
-                else if(line[i]=='/'&&line[i+1]=='/')
-                {
+                else if(line[i]=='/'&&line[i+1]=='/') {
                     i+=2;
                     sscanf(&line[i], "%d", &vn[n]);
                     while (_isDigit(line[i])) i++;
                 }
             }
             
-            for (int i=0;i<3;i++)
-            {
+            for (int i=0;i<3;i++) {
                 v[i]--;
                 vt[i]--;
                 vn[i]--;

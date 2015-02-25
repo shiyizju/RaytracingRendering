@@ -1,24 +1,21 @@
 //
-//  AABB.cpp
+//  Rect3D.cpp
 //  RayTracingRendering
 //
 //  Created by Xiaosha Quan on 2/8/15.
 //  Copyright (c) 2015 QUAN. All rights reserved.
 //
 
-#include "AABB.h"
+#include "Rect3D.h"
 
 #include <iostream>
 #include <assert.h>
 
-Point2D AABB::getTextureCoord(const Point3D& p)
-{
-    std::cout<<"AABB::getTextureCoord assert"<<std::endl;
+Point2D Rect3D::getTextureCoord(const Point3D& p) {
     assert(false);
-    exit(0);
 }
 
-void AABB::_slabInter(double s, double nearSide, double farSide, double dir, double& tmin, double& tmax)
+void Rect3D::_slabIntersection(double s, double nearSide, double farSide, double dir, double& tmin, double& tmax)
 {
     if (dir>0)
     {

@@ -15,7 +15,8 @@
 #include "Basic.h"
 
 class Scene {
-public:
+    
+private:
     GLdouble _eyex;
     GLdouble _eyey;
     GLdouble _eyez;
@@ -23,15 +24,19 @@ public:
     Light *_lights;
     Color _backgroundColor;
     
+    friend class Raytracer;
+    
+public:
     Scene() {
         // default eye position
-        _eyex = 0;
+        _eyex = 15;
         _eyey = 0;
-        _eyey = 10;
+        _eyez = 10;
         
         _backgroundColor = { 0, 0, 0 };
     }
     
+    // init scene from config file.
     Scene(const char* configFileName) {
         
     }

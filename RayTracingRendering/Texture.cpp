@@ -1,9 +1,9 @@
 //
-//  Rectangle.cpp
+//  Texture.cpp
 //  RayTracingRendering
 //
-//  Created by Xiaosha Quan on 2/20/15.
+//  Created by Xiaosha Quan on 3/1/15.
 //  Copyright (c) 2015 QUAN. All rights reserved.
 //
 
-#include "Rectangle.h"
+#include "Texture.h"

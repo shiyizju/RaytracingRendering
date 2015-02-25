@@ -5,6 +5,150 @@
 const int MAX_TREEDEPTH = 30;
 const int PRIM_LIMIT = 20;
 
+HitData Accelerator::_traversal(Ray r, BSPAccelNode* n, double tmin, double tmax) {
+    
+    HitData hitd;
+    hitd.hitPrim = NULL;
+    hitd.t = DBL_MAX;
+    
+    if (n == NULL) return hitd;
+    
+    if (n->type == BSPAccelNode::LEAF) {
+        for (int i=0;i<n->nPrim;i++) {
+            
+            double t = n->refPrim[i]->Intersection(r);
+            
+            if (t >- RAY_EPSILON && t < tmax+RAY_EPSILON && t<hitd.t) {
+                hitd.t = t;
+                hitd.hitPrim = n->refPrim[i];
+            }
+        }
+        return hitd;
+    }
+    
+    double tSplitPlane;
+    
+    BSPAccelNode *nearSide;
+    BSPAccelNode *farSide;
+    
+    if (n->splitAxis == BSPAccelNode::X)
+    {
+        double half_x = (n->box.pmax.x + n->box.pmin.x)/2;
+        
+        if (double_equal(half_x, r.s.x) || double_equal(r.dir.x, 0))
+            tSplitPlane = tmin;
+        else
+            tSplitPlane = ( half_x - r.s.x )/r.dir.x;
+        
+        
+        if (double_equal(r.s.x, half_x))
+        {
+            if (r.dir.x>0)
+            {
+                nearSide = n->right;
+                farSide = n->left;
+            }
+            else
+            {
+                nearSide = n->left;
+                farSide = n->right;
+            }
+        }
+        else if (r.s.x < half_x)
+        {
+            nearSide = n->left;
+            farSide = n->right;
+        }
+        else
+        {
+            nearSide = n->right;
+            farSide = n->left;
+        }
+    }
+    else if (n->splitAxis == BSPAccelNode::Y)
+    {
+        double half_y = (n->box.pmin.y + n->box.pmax.y)/2;
+        
+        if (double_equal( half_y, r.s.y) || double_equal(r.dir.y, 0))
+            tSplitPlane = tmin;
+        else
+            tSplitPlane = ( half_y - r.s.y )/r.dir.y;
+        
+        
+        if (double_equal(r.s.y, half_y))
+        {
+            if (r.dir.y>0)
+            {
+                nearSide = n->right;
+                farSide = n->left;
+            }
+            else
+            {
+                nearSide = n->left;
+                farSide = n->right;
+            }
+        }
+        else if ( r.s.y < half_y)
+        {
+            nearSide = n->left;
+            farSide = n->right;
+        }
+        else
+        {
+            nearSide = n->right;
+            farSide = n->left;
+        }
+    }
+    else
+    {
+        double half_z = (n->box.pmin.z + n->box.pmax.z)/2;
+        
+        if (double_equal(half_z, r.s.z) || double_equal(r.dir.z, 0))
+            tSplitPlane = tmin;
+        else
+            tSplitPlane = ( half_z - r.s.z )/r.dir.z;
+        
+        if (double_equal(r.s.z, half_z)) {
+            
+            if (r.dir.z>0) {
+                nearSide = n->right;
+                farSide = n->left;
+            }
+            else {
+                nearSide = n->left;
+                farSide = n->right;
+            }
+        }
+        else if ( r.s.z < half_z) {
+            nearSide = n->left;
+            farSide = n->right;
+        }
+        else {
+            nearSide = n->right;
+            farSide = n->left;
+        }
+    }
+    
+    if (double_larger(tSplitPlane, tmax) || double_smaller(tSplitPlane, 0)) {
+        return _traversal(r, nearSide, tmin, tmax);
+    }
+    
+    if (double_smaller(tSplitPlane, tmin)) {
+        return _traversal(r, farSide, tmin, tmax);
+    }
+    
+    if (double_equal(tSplitPlane, tmin)) {
+        hitd = _traversal(r, nearSide, tmin, tmax);
+    }
+    else {
+        hitd = _traversal(r, nearSide, tmin, tSplitPlane);
+    }
+    
+    if (hitd.hitPrim!=NULL)
+        return hitd;
+    
+    return _traversal(r, farSide, tSplitPlane, tmax);
+}
 
 void Accelerator::_subdivide(BSPAccelNode *node, int depth)
 {
@@ -55,12 +199,12 @@ void Accelerator::_subdivide(BSPAccelNode *node, int depth)
 
 	for (int i=0;i<node->nPrim;i++) {
         
-		AABB objBoundingBox = node->refPrim[i]->BoundingBox();
-        if (left->box.overlaps(objBoundingBox)) {
+		Rect3D objBoundingBox = node->refPrim[i]->BoundingBox();
+        if (left->box.isOverlap(objBoundingBox)) {
 			left->refPrim[left->nPrim++] = node->refPrim[i];
         }
         
-        if (right->box.overlaps(objBoundingBox)){
+        if (right->box.isOverlap(objBoundingBox)){
 			right->refPrim[right->nPrim++] = node->refPrim[i];
         }
 	}
@@ -92,7 +236,6 @@ bool Accelerator::_hitObject(Ray r, BSPAccelNode* n, double tmin, double tmax, d
     
     BSPAccelNode *nearSide;
     BSPAccelNode *farSide;
-    
     
     if (n->splitAxis == BSPAccelNode::X)
     {

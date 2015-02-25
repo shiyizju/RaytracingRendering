@@ -31,6 +31,7 @@ private:
     Scene *_scene;
     
 public:
+    
 	Raytracer(char* scenefile) : accel(&pPrim)
 	{
 		nPrim = 0;
@@ -46,7 +47,13 @@ public:
 
 		Parse(scenefile);
 	}
-
+    
+    void getEyePosition(int &eyex, int &eyey, int &eyez) {
+        eyex = _scene->_eyex;
+        eyey = _scene->_eyey;
+        eyez = _scene->_eyez;
+    }
+    
 	Color trace(Ray r)
 	{
 		return _trace(r, 1);

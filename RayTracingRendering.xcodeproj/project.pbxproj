@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F771CDAF1A976CF4008092C0 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F771CDAD1A976CF4008092C0 /* Rectangle.cpp */; };
 		F771CDB21A987046008092C0 /* GlutManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F771CDB01A987046008092C0 /* GlutManager.cpp */; };
 		F771CDB51A9A2759008092C0 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F771CDB31A9A2759008092C0 /* Scene.cpp */; };
+		F771CDCB1A9E24FD008092C0 /* BufferedLineReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F771CDC91A9E24FD008092C0 /* BufferedLineReader.cpp */; };
+		F7860A5F1AA3399900255FD5 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7860A5E1AA3399900255FD5 /* Texture.cpp */; };
 		F7F916CA1A86718A004030DC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916C91A86718A004030DC /* main.cpp */; };
 		F7F916DB1A86720F004030DC /* Accelerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916D01A86720F004030DC /* Accelerator.cpp */; };
 		F7F916DC1A86720F004030DC /* Basic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916D21A86720F004030DC /* Basic.cpp */; };
@@ -19,7 +20,7 @@
 		F7F916E31A871CD5004030DC /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7F916E21A871CD5004030DC /* GLUT.framework */; };
 		F7F916E61A8721BD004030DC /* TriangleMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916E51A8721BD004030DC /* TriangleMesh.cpp */; };
 		F7F916E81A872347004030DC /* Primitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916E71A872347004030DC /* Primitive.cpp */; };
-		F7F916EB1A8745E8004030DC /* AABB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916E91A8745E8004030DC /* AABB.cpp */; };
+		F7F916EB1A8745E8004030DC /* Rect3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916E91A8745E8004030DC /* Rect3D.cpp */; };
 		F7F916EE1A874796004030DC /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916EC1A874796004030DC /* Triangle.cpp */; };
 		F7F916F11A8747F5004030DC /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916EF1A8747F5004030DC /* Sphere.cpp */; };
 /* End PBXBuildFile section */
@@ -37,12 +38,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F771CDAD1A976CF4008092C0 /* Rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rectangle.cpp; sourceTree = "<group>"; };
-		F771CDAE1A976CF4008092C0 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
 		F771CDB01A987046008092C0 /* GlutManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlutManager.cpp; sourceTree = "<group>"; };
 		F771CDB11A987046008092C0 /* GlutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlutManager.h; sourceTree = "<group>"; };
 		F771CDB31A9A2759008092C0 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		F771CDB41A9A2759008092C0 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		F771CDC91A9E24FD008092C0 /* BufferedLineReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferedLineReader.cpp; sourceTree = "<group>"; };
+		F771CDCA1A9E24FD008092C0 /* BufferedLineReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferedLineReader.h; sourceTree = "<group>"; };
+		F7860A5E1AA3399900255FD5 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		F7860A611AA339F900255FD5 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		F7F916C61A86718A004030DC /* RayTracingRendering */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RayTracingRendering; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7F916C91A86718A004030DC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F7F916D01A86720F004030DC /* Accelerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Accelerator.cpp; sourceTree = "<group>"; };
@@ -53,15 +56,14 @@
 		F7F916D61A86720F004030DC /* Raytracer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Raytracer.cpp; sourceTree = "<group>"; };
 		F7F916D71A86720F004030DC /* Raytracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Raytracer.h; sourceTree = "<group>"; };
 		F7F916D81A86720F004030DC /* Shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shape.cpp; sourceTree = "<group>"; };
-		F7F916D91A86720F004030DC /* texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = texture.h; sourceTree = "<group>"; };
 		F7F916DA1A86720F004030DC /* TriangleMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriangleMesh.h; sourceTree = "<group>"; };
 		F7F916DF1A86757E004030DC /* Shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shape.h; sourceTree = "<group>"; };
 		F7F916E01A871744004030DC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		F7F916E21A871CD5004030DC /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		F7F916E51A8721BD004030DC /* TriangleMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangleMesh.cpp; sourceTree = "<group>"; };
 		F7F916E71A872347004030DC /* Primitive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Primitive.cpp; sourceTree = "<group>"; };
-		F7F916E91A8745E8004030DC /* AABB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AABB.cpp; sourceTree = "<group>"; };
-		F7F916EA1A8745E8004030DC /* AABB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AABB.h; sourceTree = "<group>"; };
+		F7F916E91A8745E8004030DC /* Rect3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rect3D.cpp; sourceTree = "<group>"; };
+		F7F916EA1A8745E8004030DC /* Rect3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rect3D.h; sourceTree = "<group>"; };
 		F7F916EC1A874796004030DC /* Triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
 		F7F916ED1A874796004030DC /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
 		F7F916EF1A8747F5004030DC /* Sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sphere.cpp; sourceTree = "<group>"; };
@@ -112,9 +114,12 @@
 				F771CDB41A9A2759008092C0 /* Scene.h */,
 				F771CDB31A9A2759008092C0 /* Scene.cpp */,
 				F7F916F31A87482E004030DC /* Shape */,
-				F7F916D91A86720F004030DC /* texture.h */,
+				F7860A611AA339F900255FD5 /* Texture.h */,
+				F7860A5E1AA3399900255FD5 /* Texture.cpp */,
 				F7F916DA1A86720F004030DC /* TriangleMesh.h */,
 				F7F916E51A8721BD004030DC /* TriangleMesh.cpp */,
+				F771CDCA1A9E24FD008092C0 /* BufferedLineReader.h */,
+				F771CDC91A9E24FD008092C0 /* BufferedLineReader.cpp */,
 				F771CDB11A987046008092C0 /* GlutManager.h */,
 				F771CDB01A987046008092C0 /* GlutManager.cpp */,
 				F7F916C91A86718A004030DC /* main.cpp */,
@@ -136,10 +141,8 @@
 			children = (
 				F7F916DF1A86757E004030DC /* Shape.h */,
 				F7F916D81A86720F004030DC /* Shape.cpp */,
-				F7F916EA1A8745E8004030DC /* AABB.h */,
-				F7F916E91A8745E8004030DC /* AABB.cpp */,
-				F771CDAE1A976CF4008092C0 /* Rectangle.h */,
-				F771CDAD1A976CF4008092C0 /* Rectangle.cpp */,
+				F7F916EA1A8745E8004030DC /* Rect3D.h */,
+				F7F916E91A8745E8004030DC /* Rect3D.cpp */,
 				F7F916ED1A874796004030DC /* Triangle.h */,
 				F7F916EC1A874796004030DC /* Triangle.cpp */,
 				F7F916F01A8747F5004030DC /* Sphere.h */,
@@ -204,19 +207,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7860A5F1AA3399900255FD5 /* Texture.cpp in Sources */,
 				F7F916DE1A86720F004030DC /* Shape.cpp in Sources */,
 				F771CDB51A9A2759008092C0 /* Scene.cpp in Sources */,
 				F7F916DC1A86720F004030DC /* Basic.cpp in Sources */,
 				F7F916E81A872347004030DC /* Primitive.cpp in Sources */,
 				F7F916E61A8721BD004030DC /* TriangleMesh.cpp in Sources */,
-				F771CDAF1A976CF4008092C0 /* Rectangle.cpp in Sources */,
 				F7F916CA1A86718A004030DC /* main.cpp in Sources */,
 				F7F916DB1A86720F004030DC /* Accelerator.cpp in Sources */,
 				F771CDB21A987046008092C0 /* GlutManager.cpp in Sources */,
 				F7F916DD1A86720F004030DC /* Raytracer.cpp in Sources */,
 				F7F916EE1A874796004030DC /* Triangle.cpp in Sources */,
+				F771CDCB1A9E24FD008092C0 /* BufferedLineReader.cpp in Sources */,
 				F7F916F11A8747F5004030DC /* Sphere.cpp in Sources */,
-				F7F916EB1A8745E8004030DC /* AABB.cpp in Sources */,
+				F7F916EB1A8745E8004030DC /* Rect3D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

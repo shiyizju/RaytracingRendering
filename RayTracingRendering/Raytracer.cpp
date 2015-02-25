@@ -144,20 +144,19 @@ Color Raytracer::getColor(Primitive* p, const Point3D& inter_pos, const Directio
 
 		double light_dis = distance(inter_pos, pLights[i]->p);
 
-		if (!accel.hitObject(shadow_ray, light_dis))     //consider the shadow
-		{
+        // The light ray may hit other object before hit the current object, aka, the shadow.
+		if (!accel.hitObject(shadow_ray, light_dis)) {
+            
 			double cosine = norm.x*l_dir.x + norm.y*l_dir.y + norm.z*l_dir.z;
-			if (p->textured&&cosine>0)
-			{
+            
+			if (p->textured && cosine>0) {
 				tc.r = pLights[i]->r * cosine * tx_c.r;
 				tc.g = pLights[i]->g * cosine * tx_c.g;
 				tc.b = pLights[i]->b * cosine * tx_c.b;
 				c += tc;
 			}
-			else
-			{
-				if (cosine>0)
-				{
+			else {
+				if (cosine>0) {
 					tc.r = pLights[i]->r * m->rKd * cosine * 255;
 					tc.g = pLights[i]->g * m->gKd * cosine * 255;
 					tc.b = pLights[i]->b * m->bKd * cosine * 255;
@@ -175,6 +174,7 @@ Color Raytracer::getColor(Primitive* p, const Point3D& inter_pos, const Directio
 			}
 		}
 	}
+    
 	return c;
 }
 
@@ -242,7 +242,7 @@ void Raytracer::Parse(char* filename)
 			fin>>p1.x>>p1.y>>p1.z;
 			fin>>p2.x>>p2.y>>p2.z;
 
-			Shape *s = new AABB(p1, p2);
+			Shape *s = new Rect3D(p1, p2);
 			Material* m = new Material;
 			fin>>m->rKa>>m->rKd>>m->rKs;
 			fin>>m->gKa>>m->gKd>>m->gKs;
@@ -263,5 +263,5 @@ void Raytracer::Parse(char* filename)
 		}
 	}
 	nPrim = pPrim.size();
-	accel.subdivide(AABB(BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX));
+	accel.subdivide(Rect3D(BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX));
 }

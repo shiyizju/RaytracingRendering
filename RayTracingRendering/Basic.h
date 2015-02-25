@@ -8,10 +8,26 @@
 extern const double RAY_EPSILON;
 extern const double RAY_MAX;
 
+struct Point2D {
+    double x;
+    double y;
+};
+
 struct Point3D {
 	double x;
 	double y;
 	double z;
+};
+
+struct Size2D {
+    float width;
+    float height;
+};
+
+struct Size3D {
+    float sizex;
+    float sizey;
+    float sizez;
 };
 
 inline Point3D operator-(const Point3D& p0, const Point3D& p1) {
@@ -37,11 +53,6 @@ inline Point3D operator*(const Point3D& p, const double factor) {
 	fp.z = factor*p.z;
 	return fp;
 }
-
-struct Point2D {
-    double x;
-    double y;
-};
 
 struct Color {
 	GLubyte r;

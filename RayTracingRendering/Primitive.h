@@ -5,7 +5,7 @@
 #include "Basic.h"
 #include "Shape.h"
 #include "Texture.h"
-#include "AABB.h"
+#include "Rect3D.h"
 
 #include <iostream>
 
@@ -28,7 +28,7 @@ public:
 	double Intersection(Ray r)
 	{
 		return s->intersection(r);
-	};
+	}
 
 	Color getTexture(Point3D p)
 	{
@@ -36,7 +36,7 @@ public:
 		return pTx->getTexture(tx_cord);
 	}
 
-	AABB BoundingBox()
+	Rect3D BoundingBox()
 	{
 		return s->boundingBox();
 	}
