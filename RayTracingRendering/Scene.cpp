@@ -28,12 +28,14 @@ Scene::Scene() {
     _backgroundColor = { 0, 0, 0 };
 }
 
-Scene::Scene(const char* configFileName) {
+Scene::Scene(const char* sceneDir) {
+    
+    std::string sceneFolder = sceneDir;
     
     // Default eye position.
-    _eyex = 15;
+    _eyex = 0;
     _eyey = 0;
-    _eyez = 10;
+    _eyez = 20;
     
     // Default ambient light.
     _ambientLight.r = 0.1;
@@ -43,7 +45,9 @@ Scene::Scene(const char* configFileName) {
     _backgroundColor = { 0, 0, 0 };
     
     // Configuration from file.
-    FILE *file = fopen(configFileName, "rb");
+    std::string sceneFileName = sceneFolder + "scene";
+    
+    FILE *file = fopen(sceneFileName.c_str(), "rb");
     
     char buf[256];
     
@@ -51,10 +55,15 @@ Scene::Scene(const char* configFileName) {
         
         fscanf(file, "%s", buf);
         
-        if (strcmp(buf, "object") == 0) {
+        if (strcmp(buf, "eye") == 0) {
             
-            char filename[128];
-            fscanf(file, "%s", filename);
+            fscanf(file, "%lf %lf %lf", &_eyex, &_eyey, &_eyez);
+            
+        }
+        else if (strcmp(buf, "object") == 0) {
+            
+            fscanf(file, "%s", buf);
+            std::string objFileName = sceneFolder + buf;
             
             double scale[3], rotation[3], transform[3];
             
@@ -62,20 +71,19 @@ Scene::Scene(const char* configFileName) {
             fscanf(file, "%lf %lf %lf", rotation,  rotation+1,  rotation+2);
             fscanf(file, "%lf %lf %lf", transform, transform+1, transform+2);
             
-            TriangleMesh* tm = new TriangleMesh(filename, scale, rotation, transform);
+            TriangleMesh* tm = new TriangleMesh(objFileName.c_str(), scale, rotation, transform);
 
             Material* m = new Material;
             Texture* pTexture = NULL;
             bool texted;
             
-            char tmp[64];
-            fscanf(file, "%s", tmp);
+            fscanf(file, "%s", buf);
             
-            if (strcmp(tmp, "texture") == 0) {
+            if (strcmp(buf, "texture") == 0) {
                 texted = true;
-                char textureFileName[64];
-                fscanf(file, "%s", textureFileName);
-                pTexture = new Texture(textureFileName);
+                fscanf(file, "%s", buf);
+                std::string textPath = sceneFolder + buf;
+                pTexture = new Texture(textPath.c_str());
             }
             else {
                 texted = false;

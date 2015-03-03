@@ -42,7 +42,7 @@ public:
     
     Scene();
     
-    Scene(const char* configFileName);
+    Scene(const char* sceneDir);
     
     
 private:

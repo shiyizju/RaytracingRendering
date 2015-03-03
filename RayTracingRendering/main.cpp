@@ -20,10 +20,11 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    string sceneFileName;
+    string sceneFolder;
+    cout<<"Input scene folder: "<<endl;
+    cin>>sceneFolder;
     
-    cout<<"Input Scene File: "<<endl;
-    cin>>sceneFileName;
+    string sceneFileName = PROJECT_DIR + sceneFolder + "/";
     
     Scene scene(sceneFileName.c_str());
     

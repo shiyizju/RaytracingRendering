@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 QUAN. All rights reserved.
 //
 
+
 #import "TriangleMesh.h"
+
+const double PIDIV180 = M_PI / 180.0;
 
 void TriangleMesh::_parse(double scale[3], double rot_angle[3], double trans[3]) {
     
@@ -40,22 +43,22 @@ void TriangleMesh::_parse(double scale[3], double rot_angle[3], double trans[3])
             double tx, ty, tz;
             double vcos, vsin;
             
-            vcos = cos(rot_angle[0]);
-            vsin = sin(rot_angle[0]);
+            vcos = cos(rot_angle[0] * PIDIV180);
+            vsin = sin(rot_angle[0] * PIDIV180);
             ty = vcos*y - vsin*z;
             tz = vsin*y + vcos*z;
             tx = x;
             x = tx; y = ty; z = tz;
             
-            vcos = cos(rot_angle[1]);
-            vsin = sin(rot_angle[1]);
+            vcos = cos(rot_angle[1] * PIDIV180);
+            vsin = sin(rot_angle[1] * PIDIV180);
             tz = vcos*z - vsin*x;
             tx = vsin*z + vcos*x;
             ty = y;
             x = tx; y = ty; z = tz;
             
-            vcos = cos(rot_angle[2]);
-            vsin = sin(rot_angle[2]);
+            vcos = cos(rot_angle[2] * PIDIV180);
+            vsin = sin(rot_angle[2] * PIDIV180);
             tx = vcos*x - vsin*y;
             ty = vsin*x + vcos*y;
             tz = z;

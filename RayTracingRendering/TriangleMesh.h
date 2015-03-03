@@ -37,7 +37,7 @@ public:
 		return c>='0'&&c<='9';
 	}
 
-	TriangleMesh(char* fn, double scale[3], double rot_angle[3], double trans[3]) : file(fn) {
+	TriangleMesh(const char* fn, double scale[3], double rot_angle[3], double trans[3]) : file(fn) {
 		nface = 0;
 		nvertex = 0;
 

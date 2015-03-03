@@ -11,6 +11,7 @@
 		F771CDB51A9A2759008092C0 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F771CDB31A9A2759008092C0 /* Scene.cpp */; };
 		F771CDCB1A9E24FD008092C0 /* BufferedLineReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F771CDC91A9E24FD008092C0 /* BufferedLineReader.cpp */; };
 		F7860A5F1AA3399900255FD5 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7860A5E1AA3399900255FD5 /* Texture.cpp */; };
+		F7860B201AA5ECB300255FD5 /* libpng16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7860B1F1AA5ECB300255FD5 /* libpng16.a */; };
 		F7F916CA1A86718A004030DC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916C91A86718A004030DC /* main.cpp */; };
 		F7F916DB1A86720F004030DC /* Accelerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916D01A86720F004030DC /* Accelerator.cpp */; };
 		F7F916DC1A86720F004030DC /* Basic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7F916D21A86720F004030DC /* Basic.cpp */; };
@@ -46,6 +47,7 @@
 		F771CDCA1A9E24FD008092C0 /* BufferedLineReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferedLineReader.h; sourceTree = "<group>"; };
 		F7860A5E1AA3399900255FD5 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		F7860A611AA339F900255FD5 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		F7860B1F1AA5ECB300255FD5 /* libpng16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16.a; path = libpng/lib/libpng16.a; sourceTree = "<group>"; };
 		F7F916C61A86718A004030DC /* RayTracingRendering */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RayTracingRendering; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7F916C91A86718A004030DC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F7F916D01A86720F004030DC /* Accelerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Accelerator.cpp; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7860B201AA5ECB300255FD5 /* libpng16.a in Frameworks */,
 				F7F916E31A871CD5004030DC /* GLUT.framework in Frameworks */,
 				F7F916E11A871744004030DC /* OpenGL.framework in Frameworks */,
 			);
@@ -86,6 +89,7 @@
 		F7F916BD1A86718A004030DC = {
 			isa = PBXGroup;
 			children = (
+				F7860B1F1AA5ECB300255FD5 /* libpng16.a */,
 				F7F916E41A871CE1004030DC /* Framework */,
 				F7F916C81A86718A004030DC /* RayTracingRendering */,
 				F7F916C71A86718A004030DC /* Products */,
@@ -252,6 +256,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"PROJECT_DIR=\\\"\"$PROJECT_DIR\"/\\\"",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -264,6 +269,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = $PROJECT_DIR/libpng/include;
 			};
 			name = Debug;
 		};
@@ -289,6 +295,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "PROJECT_DIR=\\\"\"$PROJECT_DIR\"/\\\"";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -298,12 +305,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = $PROJECT_DIR/libpng/include;
 			};
 			name = Release;
 		};
 		F7F916CE1A86718A004030DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libpng/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -311,6 +323,10 @@
 		F7F916CF1A86718A004030DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libpng/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
