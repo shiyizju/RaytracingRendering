@@ -116,24 +116,21 @@ Color Raytracer::getColor(Primitive* p, const Point3D& inter_pos, const Directio
 
 	Material* m = p->m;
 
-	if (p->textured)
-	{
+	if (p->textured) {
 		tx_c = p->getTexture(inter_pos);
-		c.r = pLights[0]->r * tx_c.r;
-		c.g = pLights[0]->g * tx_c.g;
-		c.b = pLights[0]->b * tx_c.b;
+		c.r = _scene->_ambientLight.r * tx_c.r;
+		c.g = _scene->_ambientLight.g * tx_c.g;
+		c.b = _scene->_ambientLight.b * tx_c.b;
 	}
-	else
-	{
-		c.r = pLights[0]->r * m->rKa * 255;
-		c.g = pLights[0]->g * m->gKa * 255;
-		c.b = pLights[0]->b * m->bKa * 255;
+	else {
+		c.r = _scene->_ambientLight.r * m->rKa * 255;
+		c.g = _scene->_ambientLight.g * m->gKa * 255;
+		c.b = _scene->_ambientLight.b * m->bKa * 255;
 	}
 
-	for (int i=1;i<nLight;i++)
-	{
+	for (int i=0; i < _scene->_pointLight.size(); i++) {
 		Color tc;
-		Direction l_dir(inter_pos, pLights[i]->p);
+		Direction l_dir(inter_pos, _scene->_pointLight[i].p);
 		Ray shadow_ray;
 		shadow_ray.dir = l_dir;
 		shadow_ray.s = inter_pos;
@@ -142,7 +139,7 @@ Color Raytracer::getColor(Primitive* p, const Point3D& inter_pos, const Directio
 		shadow_ray.s.y += RAY_EPSILON*2*shadow_ray.dir.y; 
 		shadow_ray.s.z += RAY_EPSILON*2*shadow_ray.dir.z; 
 
-		double light_dis = distance(inter_pos, pLights[i]->p);
+		double light_dis = distance(inter_pos, _scene->_pointLight[i].p);
 
         // The light ray may hit other object before hit the current object, aka, the shadow.
 		if (!accel.hitObject(shadow_ray, light_dis)) {
@@ -150,25 +147,25 @@ Color Raytracer::getColor(Primitive* p, const Point3D& inter_pos, const Directio
 			double cosine = norm.x*l_dir.x + norm.y*l_dir.y + norm.z*l_dir.z;
             
 			if (p->textured && cosine>0) {
-				tc.r = pLights[i]->r * cosine * tx_c.r;
-				tc.g = pLights[i]->g * cosine * tx_c.g;
-				tc.b = pLights[i]->b * cosine * tx_c.b;
+				tc.r = _scene->_pointLight[i].r * cosine * tx_c.r;
+				tc.g = _scene->_pointLight[i].g * cosine * tx_c.g;
+				tc.b = _scene->_pointLight[i].b * cosine * tx_c.b;
 				c += tc;
 			}
 			else {
 				if (cosine>0) {
-					tc.r = pLights[i]->r * m->rKd * cosine * 255;
-					tc.g = pLights[i]->g * m->gKd * cosine * 255;
-					tc.b = pLights[i]->b * m->bKd * cosine * 255;
+					tc.r = _scene->_pointLight[i].r * m->rKd * cosine * 255;
+					tc.g = _scene->_pointLight[i].g * m->gKd * cosine * 255;
+					tc.b = _scene->_pointLight[i].b * m->bKd * cosine * 255;
 					c += tc;
 				}
 				Direction h = Direction(l_dir.x+norm.x, l_dir.y+norm.y, l_dir.z+norm.z);
 				double nh = norm.x*h.x + norm.y*h.y + norm.z*h.z;
 				if (nh > 0)
 				{
-					tc.r = pLights[i]->r * pow(nh, m->rKs) * 255;
-					tc.g = pLights[i]->g * pow(nh, m->gKs) * 255;
-					tc.b = pLights[i]->b * pow(nh, m->bKs) * 255;
+					tc.r = _scene->_pointLight[i].r * pow(nh, m->rKs) * 255;
+					tc.g = _scene->_pointLight[i].g * pow(nh, m->gKs) * 255;
+					tc.b = _scene->_pointLight[i].b * pow(nh, m->bKs) * 255;
 					c += tc;
 				}
 			}
@@ -178,90 +175,4 @@ Color Raytracer::getColor(Primitive* p, const Point3D& inter_pos, const Directio
 	return c;
 }
 
-void Raytracer::Parse(char* filename)
-{
-	std::ifstream fin(filename);
-	std::string s;
-	while(fin>>s)
-	{
-		if (s=="object")
-		{
-			char fn[128];
-			fin>>fn;
-			double scale[3], rot_angle[3], trans[3];
-			fin>>scale[0]>>scale[1]>>scale[2];
-			fin>>rot_angle[0]>>rot_angle[1]>>rot_angle[2];
-			fin>>trans[0]>>trans[1]>>trans[2];
 
-			TriangleMesh* tm = new TriangleMesh(fn, scale, rot_angle, trans);
-
-			std::string str;				
-			Material* m = new Material;
-			Texture* ptx = NULL;
-			bool texted;
-
-			fin>>str;
-			if (str=="texture")
-			{
-				texted = true;
-				fin>>fn;
-				ptx = new Texture(fn);
-			}
-			else
-			{
-				texted = false;
-				fin>>m->rKa>>m->rKd>>m->rKs;
-				fin>>m->gKa>>m->gKd>>m->gKs;
-				fin>>m->bKa>>m->bKd>>m->bKs;
-				fin>>m->reflective>>m->refraction_index;
-			}
-			for (int i=0;i<tm->nface;i++)
-			{
-				Shape* s = new Triangle(tm, i);
-				pPrim.push_back(new Primitive(s, m, texted, ptx));
-			}
-		}
-		else if (s=="sphere")
-		{
-			Point3D center;
-			double radius;
-			fin>>center.x>>center.y>>center.z;
-			fin>>radius;
-
-			Shape *s = new Sphere(center, radius);
-			Material* m = new Material;
-			fin>>m->rKa>>m->rKd>>m->rKs;
-			fin>>m->gKa>>m->gKd>>m->gKs;
-			fin>>m->bKa>>m->bKd>>m->bKs;
-			fin>>m->reflective>>m->refraction_index;
-			pPrim.push_back(new Primitive(s, m));
-		}
-		else if (s=="box")
-		{
-			Point3D p1, p2;
-			fin>>p1.x>>p1.y>>p1.z;
-			fin>>p2.x>>p2.y>>p2.z;
-
-			Shape *s = new Rect3D(p1, p2);
-			Material* m = new Material;
-			fin>>m->rKa>>m->rKd>>m->rKs;
-			fin>>m->gKa>>m->gKd>>m->gKs;
-			fin>>m->bKa>>m->bKd>>m->bKs;
-			fin>>m->reflective>>m->refraction_index;
-			pPrim.push_back(new Primitive(s, m));
-		}
-		else if (s=="light")
-		{
-			Light* l = new Light();
-			double r, g, b;
-			fin >> r >> g >> b;
-			l->r = r;
-			l->g = g;
-			l->b = b;
-			fin >> l->p.x >> l->p.y >> l->p.z;
-			pLights[nLight++] = l;
-		}
-	}
-	nPrim = pPrim.size();
-	accel.subdivide(Rect3D(BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX));
-}

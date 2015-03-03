@@ -10,37 +10,45 @@
 #define __RayTracingRendering__Scene__
 
 #include <stdio.h>
+#include <vector>
 #include <openGL/gltypes.h>
 
 #include "Basic.h"
 
+class Sphere;
+class Primitive;
+
 class Scene {
     
+    friend class Raytracer;
+
 private:
+    // eye position.
     GLdouble _eyex;
     GLdouble _eyey;
     GLdouble _eyez;
     
-    Light *_lights;
+    // ambient light
+    Light _ambientLight;
+    
+    // Point light
+    std::vector<Light> _pointLight;
+    
+    std::vector<Primitive*> _primitive;
+    
     Color _backgroundColor;
     
-    friend class Raytracer;
-    
 public:
-    Scene() {
-        // default eye position
-        _eyex = 15;
-        _eyey = 0;
-        _eyez = 10;
-        
-        _backgroundColor = { 0, 0, 0 };
-    }
     
-    // init scene from config file.
-    Scene(const char* configFileName) {
-        
-    }
+    Scene();
     
+    Scene(const char* configFileName);
+    
+    
+private:
+        
+    void _readMaterial(FILE* file, Material& material);
+        
 };
 
 

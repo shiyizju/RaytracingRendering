@@ -68,7 +68,7 @@ double Triangle::intersection(const Ray& r) {
     _cross(qvec, tvec, edge1);
     v = _dot(dir, qvec)*inv_det;
     
-    if ( v<-RAY_EPSILON || u+v>1+RAY_EPSILON )
+    if ( v < -RAY_EPSILON || u+v > 1+RAY_EPSILON )
         return -1.0;
     
     return _dot(edge2, qvec)*inv_det;

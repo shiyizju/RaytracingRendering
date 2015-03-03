@@ -20,11 +20,6 @@ extern const double BOX_MAX;
 class Raytracer
 {
 private:
-	std::vector<Primitive*> pPrim;
-	Light* pLights[5];          // Max light count is 5, including ambient light.
-
-	int nPrim;
-	int nLight;
     
 	Accelerator accel;
     
@@ -32,20 +27,9 @@ private:
     
 public:
     
-	Raytracer(char* scenefile) : accel(&pPrim)
-	{
-		nPrim = 0;
-		nLight = 0;
-        
-        _scene = new Scene;
-
-		Light *ambient = new Light;
-		ambient->r = 0.1;
-		ambient->g = 0.1;
-		ambient->b = 0.1;
-		pLights[nLight++] = ambient;
-
-		Parse(scenefile);
+	Raytracer(Scene *scene) : accel(&scene->_primitive) {
+        _scene = scene;
+        accel.subdivide(Rect3D(BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX, BOX_MIN, BOX_MAX));
 	}
     
     void getEyePosition(int &eyex, int &eyey, int &eyez) {
@@ -54,8 +38,7 @@ public:
         eyez = _scene->_eyez;
     }
     
-	Color trace(Ray r)
-	{
+	Color trace(Ray r) {
 		return _trace(r, 1);
 	}
     /*

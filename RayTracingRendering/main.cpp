@@ -12,26 +12,22 @@
 #import <GLUT/GLUT.h>
 #import <math.h>
 
-#import "Raytracer.h"
+#include "Scene.h"
+#include "Raytracer.h"
 #import "GlutManager.h"
 
 using namespace std;
 
-char scene_fn[64];
-char output_fn[64];
-
-Raytracer* raytracer;
-
 int main(int argc, char** argv)
 {
-    cout<<"Input Scene File: "<<endl;
-    cin>>scene_fn;
-    strcat(scene_fn, ".sce");
-    cout<<"Output File Name: "<<endl;
-    cin>>output_fn;
-    strcat(output_fn, ".jpg");
+    string sceneFileName;
     
-    raytracer = new Raytracer(scene_fn);
+    cout<<"Input Scene File: "<<endl;
+    cin>>sceneFileName;
+    
+    Scene scene(sceneFileName.c_str());
+    
+    Raytracer* raytracer = new Raytracer(&scene);
     
     GlutManager& glutManager = GlutManager::getInstance();
     glutManager.initialize(&argc, argv, 1000, 1000, raytracer);
