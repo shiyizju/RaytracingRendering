@@ -1,5 +1,5 @@
 ###Overview
-An implementation of ray tracing algorithm at collage, reorganized recently.
+An implementation of ray tracing algorithm done at Collage, re-organized recently.
 
 #####how to run
 This is a Mac OS command line project, using Glut to display the rendering result.
