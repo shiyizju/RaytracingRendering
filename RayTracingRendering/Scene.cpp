@@ -49,6 +49,11 @@ Scene::Scene(const char* sceneDir) {
     
     FILE *file = fopen(sceneFileName.c_str(), "rb");
     
+    if (!file) {
+        printf("file %s does not exist.\n", sceneFileName.c_str());
+        exit(0);
+    }
+    
     char buf[256];
     
     while (!feof(file)) {
